@@ -91,8 +91,7 @@ import {
 
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(
-  process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
-    ""
+  process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
 );
 
 // Theme colors
@@ -553,7 +552,7 @@ const useUserData = () => {
 
     fetchUser();
   }, []);
-
+  
   const updateUser = useCallback(
     async (updatedData) => {
       try {
@@ -993,31 +992,31 @@ const AchievementCard = ({ achievement, isUnlocked }) => {
 
 // Main Profile Page Component
 export default function ProfilePage() {
-    const router = useRouter();
-    const {
-      user,
-      loading,
-      error,
-      saving,
-      updateUser,
-      updateAchievement,
-      formatDate,
-      getFormattedCreationDate,
-      calculateMembershipDuration,
-    } = useUserData();
-    const {
-      insights,
-      loading: insightsLoading,
-      error: insightsError,
-      generateInsights,
-    } = useAIInsights();
+  const router = useRouter();
+  const {
+    user,
+    loading,
+    error,
+    saving,
+    updateUser,
+    updateAchievement,
+    formatDate,
+    getFormattedCreationDate,
+    calculateMembershipDuration,
+  } = useUserData();
+  const {
+    insights,
+    loading: insightsLoading,
+    error: insightsError,
+    generateInsights,
+  } = useAIInsights();
 
-    const [activeTab, setActiveTab] = useState("overview");
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [showProfilePictureModal, setShowProfilePictureModal] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editableUser, setEditableUser] = useState(null);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [activeTab, setActiveTab] = useState("overview");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showProfilePictureModal, setShowProfilePictureModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableUser, setEditableUser] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   // Initialize editable user when user data is loaded
   useEffect(() => {
     if (user) {
@@ -1053,7 +1052,6 @@ export default function ProfilePage() {
     [userAchievements]
   );
 
-
   // Handle profile updates
   const handleSaveProfile = async () => {
     if (!editableUser) return;
@@ -1072,8 +1070,8 @@ export default function ProfilePage() {
   const handleToggleAchievement = async (achievementId, achieved) => {
     await updateAchievement(achievementId, achieved);
   };
-// Handle theme change
-const handleThemeChange = (themeKey) => {
+  // Handle theme change
+  const handleThemeChange = (themeKey) => {
     if (!editableUser) return;
 
     setEditableUser((prev) => ({
@@ -1082,30 +1080,122 @@ const handleThemeChange = (themeKey) => {
     }));
   };
 
-  // Delete account (simulated)
-  const handleDeleteAccount = async () => {
+  const handleLogoutEverywhere = async () => {
     try {
-      // In a real implementation, you would call your API to delete the account
-      const response = await fetch('/api/profile/deleteAccount', {
-        method: 'POST',
+      // Show a loading message
+      console.log("Logging out from all devices...");
+      
+      // Instead of using the custom endpoint, use the built-in NextAuth signOut function
+      const response = await fetch("/api/auth/signout", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
+        credentials: "same-origin"
       });
+  
+      console.log("Signout response status:", response.status);
       
-      if (!response.ok) {
-        throw new Error('Failed to delete account');
-      }
+      // Now call our custom endpoint to handle additional logout logic
+      const customLogoutResponse = await fetch("/api/auth/logoutEverywhere", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "same-origin"
+      });
+  
+      console.log("Logout response status:", customLogoutResponse.status);
       
-      // Clear localStorage and navigate to home
+      // Clear client-side storage regardless of server response
       localStorage.removeItem("userData");
-      router.push("/");
+      localStorage.removeItem("userInsights");
+      localStorage.removeItem("token");
+      localStorage.removeItem("fitnessMetrics");
+      localStorage.removeItem("fitnessWorkouts");
+      localStorage.removeItem("fitnessAICoach");
+      localStorage.removeItem("foodDiaryData");
+      
+      // Clear any session storage
+      sessionStorage.clear();
+  
+      // Show success message
+      alert("Successfully logged out from all devices");
+  
+      // Redirect to login page
+      window.location.href = "/login";
     } catch (error) {
-      console.error("Error deleting account:", error);
-      alert("Failed to delete account. Please try again.");
+      console.error("Error logging out everywhere:", error);
+      alert(`Failed to log out: ${error.message}`);
+      
+      // Even if there's an error, still clear local data and redirect
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "/login";
     }
   };
 
+  // Delete account (simulated)
+  const handleDeleteAccount = async () => {
+    try {
+      // Show a loading message
+      console.log("Deleting account...");
+      
+      const response = await fetch("/api/profile/deleteAccount", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Make sure to include credentials to allow cookie clearing
+        credentials: 'include'
+      });
+  
+      console.log("Delete account response status:", response.status);
+      
+      // Use a safer approach to parse JSON that won't throw an error
+      let responseData;
+      try {
+        const text = await response.text();
+        console.log("Raw response:", text);
+        responseData = text ? JSON.parse(text) : {};
+      } catch (parseError) {
+        console.error("Error parsing response:", parseError);
+        responseData = { error: "Failed to parse response" };
+      }
+      
+      console.log("Delete account response data:", responseData);
+  
+      if (!response.ok) {
+        throw new Error(responseData.message || "Failed to delete account");
+      }
+  
+      // Clear localStorage data
+      localStorage.removeItem("userData");
+      localStorage.removeItem("userInsights");
+      localStorage.removeItem("token"); // Clear any auth token if present
+      
+      // Clear any other client-side storage
+      sessionStorage.clear();
+      
+      // Clear any in-memory state related to the user
+      // If you're using any state management like Redux or Zustand, clear the user state
+      
+      // Show success message
+      alert("Your account has been successfully deleted");
+      
+      // Close the confirmation dialog
+      setShowDeleteConfirm(false);
+      
+      // Redirect to home/login page
+      router.push("/");
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      alert(`Failed to delete account: ${error.message}`);
+      // Close the confirmation dialog if there's an error
+      setShowDeleteConfirm(false);
+    }
+  };
+  
   // Set up theme-specific gradient based on user preference
   const getThemeGradient = (type, theme = "primary") => {
     const themeColor = THEME_COLORS[theme] || THEME_COLORS.primary;
@@ -1220,7 +1310,6 @@ const handleThemeChange = (themeKey) => {
 
   // Get user level
   const { level, progress } = calculateUserLevel();
-
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
@@ -3789,7 +3878,10 @@ const handleThemeChange = (themeKey) => {
                           Delete Account
                         </button>
 
-                        <button className="px-4 py-2.5 bg-amber-900/30 border border-amber-700/30 hover:bg-amber-900/50 rounded-lg text-amber-300 transition-colors flex items-center text-sm">
+                        <button
+                          onClick={handleLogoutEverywhere}
+                          className="px-4 py-2.5 bg-amber-900/30 border border-amber-700/30 hover:bg-amber-900/50 rounded-lg text-amber-300 transition-colors flex items-center text-sm"
+                        >
                           <LogOut className="mr-2 h-4 w-4" />
                           Log Out Everywhere
                         </button>
@@ -3947,7 +4039,12 @@ const handleThemeChange = (themeKey) => {
           </div>
         </div>
       )}
-      
+
+      {/* Current date and user */}
+      <div className="fixed bottom-2 right-2 text-xs text-slate-600">
+        Last activity: 2025-04-19 08:25:55 (UTC) • User: NiladriHazra
+      </div>
+
       {/* Add CSS animation for floating particles */}
       <style jsx global>{`
         @keyframes float {

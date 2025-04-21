@@ -139,7 +139,7 @@ export default function LoginPage() {
                   </div>
                 </div>
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
-                अन्ना-Data
+                অন্ন-Data
                 </h1>
                 <p className="text-slate-400 mt-1">Your Nutritional Intelligence Assistant</p>
               </div>
