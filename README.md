@@ -1,13 +1,13 @@
 # AnnaData: Your Personal Nutrition Intelligence Platform
 
-![AnnaData Banner](https://raw.githubusercontent.com/NiladriHazra/AnnaData/main/imagesanna/banner.png)
+![AnnaData Banner](https://raw.githubusercontent.com/D-roy-2003/Foodopedia/main/imagesanna/banner.png)
 
 
-[![GitHub stars](https://img.shields.io/github/stars/NiladriHazra/AnnaData?style=social)](https://github.com/NiladriHazra/AnnaData/stargazers)
-[![Twitter Follow](https://img.shields.io/twitter/follow/PixelNiladri?style=social)](https://twitter.com/PixelNiladri)
-[![GitHub license](https://img.shields.io/github/license/NiladriHazra/AnnaData?color=blue)](https://github.com/NiladriHazra/AnnaData/blob/main/LICENSE)
-[![Version](https://img.shields.io/badge/version-2.4.0-indigo)](https://github.com/NiladriHazra/AnnaData)
-[![JavaScript](https://img.shields.io/badge/JavaScript-99.9%25-yellow)](https://github.com/NiladriHazra/AnnaData)
+[![GitHub stars](https://img.shields.io/github/stars/D-roy-2003/Foodopedia?style=social)](https://github.com/D-roy-2003/Foodopedia/stargazers)
+[![Twitter Follow](https://img.shields.io/twitter/follow/DebangshuRoy?style=social)](https://twitter.com/Boomboom_699)
+[![GitHub license](https://img.shields.io/github/license/D-roy-2003/Foodopedia?color=blue)](https://github.com/D-roy-2003/Foodopedia/blob/main/LICENSE)
+[![Version](https://img.shields.io/badge/version-2.4.0-indigo)](https://github.com/D-roy-2003/Foodopedia)
+[![JavaScript](https://img.shields.io/badge/JavaScript-99.9%25-yellow)](https://github.com/D-roy-2003/Foodopedia)
 
 <div align="center">
   <h3>Discover the nutrition behind your food with AI-powered insights</h3>
@@ -17,7 +17,7 @@
 
 ## 🌟 Overview
 
-**AnnaData** (अन्ना - Data) is a cutting-edge nutrition intelligence platform that empowers users to make informed dietary choices through advanced AI analysis, comprehensive tracking, and personalized insights. By combining beautiful, intuitive design with powerful data analytics, AnnaData transforms the way you understand and interact with your nutrition and fitness journey.
+**AnnaData** (অন্ন - Data) is a cutting-edge nutrition intelligence platform that empowers users to make informed dietary choices through advanced AI analysis, comprehensive tracking, and personalized insights. By combining beautiful, intuitive design with powerful data analytics, AnnaData transforms the way you understand and interact with your nutrition and fitness journey.
 
 ## ✨ Key Features
 
@@ -66,22 +66,3 @@ AnnaData is built using modern web technologies to ensure a smooth, responsive e
   <img src="imagesanna\profile.png" width="45%" alt="Fitness Tracking">
   <img src="imagesanna\recipie.png" width="45%" alt="AI Insights">
 </div>
-
-<!-- ## 🛠️ Installation and Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/NiladriHazra/AnnaData.git
-
-# Navigate to the project directory
-cd AnnaData
-
-# Install dependencies
-npm install
-
-# Set up environment variables
-cp .env.example .env.local
-# Edit .env.local and add your API keys and configurations
-
-# Run the development server
-npm run dev -->
