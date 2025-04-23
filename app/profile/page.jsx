@@ -4040,10 +4040,7 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* Current date and user */}
-      <div className="fixed bottom-2 right-2 text-xs text-slate-600">
-        Last activity: 2025-04-19 08:25:55 (UTC) • User: NiladriHazra
-      </div>
+      
 
       {/* Add CSS animation for floating particles */}
       <style jsx global>{`
